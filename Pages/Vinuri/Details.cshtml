@@ -1,0 +1,49 @@
+﻿@page
+@model PROIECT_SESIUNE_VINURI.Pages.Vinuri.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Vin</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vin.Nume)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vin.Nume)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vin.An)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vin.An)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vin.Tip)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vin.Tip)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vin.Culoare)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vin.Culoare)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vin.Pret)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vin.Pret)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Vin?.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

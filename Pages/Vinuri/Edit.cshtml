@@ -1,0 +1,61 @@
+﻿@page
+@model PROIECT_SESIUNE_VINURI.Pages.Vinuri.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Vin</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Vin.ID" />
+            <div class="form-group">
+                <label asp-for="Vin.Nume" class="control-label"></label>
+                <input asp-for="Vin.Nume" class="form-control" />
+                <span asp-validation-for="Vin.Nume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vin.An" class="control-label"></label>
+                <input asp-for="Vin.An" class="form-control" />
+                <span asp-validation-for="Vin.An" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vin.Tip" class="control-label"></label>
+                <input asp-for="Vin.Tip" class="form-control" />
+                <span asp-validation-for="Vin.Tip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vin.Culoare" class="control-label"></label>
+                <input asp-for="Vin.Culoare" class="form-control" />
+                <span asp-validation-for="Vin.Culoare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vin.Pret" class="control-label"></label>
+                <input asp-for="Vin.Pret" class="form-control" />
+                <span asp-validation-for="Vin.Pret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vin.TaraID" class="control-label">Publisher Name</label>
+                <select asp-for="Vin.TaraID" class="form-control" asp-items="ViewBag.TaraID">
+                </select>
+                <span asp-validation-for="Vin.TaraID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

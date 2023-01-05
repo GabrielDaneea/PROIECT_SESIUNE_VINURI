@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using PROIECT_SESIUNE_VINURI.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<PROIECT_SESIUNE_VINURIContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PROIECT_SESIUNE_VINURIContext") ?? throw new InvalidOperationException("Connection string 'PROIECT_SESIUNE_VINURIContext' not found.")));
 
 var app = builder.Build();
 

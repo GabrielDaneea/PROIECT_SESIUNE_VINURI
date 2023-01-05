@@ -1,0 +1,69 @@
+﻿@page
+@model PROIECT_SESIUNE_VINURI.Pages.Vinuri.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].Nume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].An)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].Tip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].Culoare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].Pret)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].Tara.Nume)
+            </th>
+            
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Vin) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.An)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Culoare)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pret)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tara.Nume)
+                </td>
+               
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
