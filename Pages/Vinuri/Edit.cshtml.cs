@@ -11,7 +11,7 @@ using PROIECT_SESIUNE_VINURI.Pages.Models;
 
 namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
 {
-    public class EditModel : PageModel
+    public class EditModel : DistribuitorVinuriModel
     {
         private readonly PROIECT_SESIUNE_VINURI.Data.PROIECT_SESIUNE_VINURIContext _context;
 
@@ -30,50 +30,42 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
                 return NotFound();
             }
 
-            var vin =  await _context.Vin.FirstOrDefaultAsync(m => m.ID == id);
+            var vin = await _context.Vin.Include(b => b.Tara).Include(b => b.DistribuitoriDeVinuri).ThenInclude(b => b.Distribuitor).AsNoTracking().FirstOrDefaultAsync(m => m.ID == id);
+
             if (vin == null)
             {
                 return NotFound();
             }
-            ViewData["TaraID"] = new SelectList(_context.Set<Tara>(), "ID",
-"Nume");
+            IncarcaDistribuitorVinuriDat(_context, vin);
+
+            ViewData["TaraID"] = new SelectList(_context.Set<Tara>(), "ID", "Nume");
             Vin = vin;
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedDistribuitori)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return null;
+
             }
-
-            _context.Attach(Vin).State = EntityState.Modified;
-
-            try
+            var vinToUpdate = await _context.Vin.Include(i => i.Tara).Include(i => i.DistribuitoriDeVinuri).ThenInclude(i => i.Distribuitor).FirstOrDefaultAsync(s => s.ID == id);
+            if (vinToUpdate == null)
             {
+                return NotFound();
+            }
+            if (await TryUpdateModelAsync<Vin>(vinToUpdate, "Vin", i => i.Nume, i => i.An, i => i.Tip, i => i.Culoare, i => i.Pret, i => i.Tara))
+            {
+                UpdateDistribuitorVinuri(_context, selectedDistribuitori, vinToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VinExists(Vin.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool VinExists(int id)
-        {
-          return _context.Vin.Any(e => e.ID == id);
+            UpdateDistribuitorVinuri(_context, selectedDistribuitori, vinToUpdate);
+            IncarcaDistribuitorVinuriDat(_context, vinToUpdate);
+            return Page();
         }
     }
 }

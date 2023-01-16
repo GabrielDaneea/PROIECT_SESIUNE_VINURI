@@ -7,7 +7,7 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Models
     {
         public int ID { get; set; }
         [Display(Name = "Tara Origine:")]
-        public string Nume { get; set; }
+        public string? Nume { get; set; }
         public ICollection<Vin>? Vinuri { get; set; }
     }
 }

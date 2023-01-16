@@ -17,5 +17,7 @@ namespace PROIECT_SESIUNE_VINURI.Data
         public DbSet<PROIECT_SESIUNE_VINURI.Pages.Models.Vin> Vin { get; set; } = default!;
 
         public DbSet<PROIECT_SESIUNE_VINURI.Pages.Models.Tara> Tara { get; set; }
+
+        public DbSet<PROIECT_SESIUNE_VINURI.Pages.Models.Distribuitor> Distribuitor { get; set; }
     }
 }

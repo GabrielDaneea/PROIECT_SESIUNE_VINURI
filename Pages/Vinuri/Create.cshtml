@@ -45,6 +45,33 @@
                 <span asp-validation-for="Vin.TaraID" class="text-danger"></span>
             </div>
             <div class="form-group">
+            <div class="table">
+                <table>
+                    <thead> Distribuitori</thead>
+                    <tr>
+                            @{
+                                int c = 0;
+                                foreach (var distri in Model.DistribuitorVinuriDatList)
+                                {
+                                    if(c++ %3 == 0)
+                                    {
+                                        @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type ="checkbox"
+                                            name="selectedDistribuitori"
+                                            value="@distri.DistribuitorID"
+                                            @(Html.Raw(distri.Dat ? "checked=\"checked\"" : ""))/>
+                                            @distri.DistribuitorID @: @distri.Name
+                                            @:</td>
+                                            
+                                }
+                                @:</tr>
+                                }
+                                </table>
+                                </div>
+                                </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

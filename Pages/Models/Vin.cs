@@ -24,5 +24,7 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Models
         public int TaraID { get; set; }
 
         public Tara Tara { get; set; }
+        public ICollection<DistribuitorVinuri> DistribuitoriDeVinuri { get; set; }
+
     }
 }

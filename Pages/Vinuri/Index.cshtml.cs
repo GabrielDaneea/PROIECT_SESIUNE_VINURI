@@ -19,15 +19,28 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
             _context = context;
         }
 
-        public IList<Vin> Vin { get;set; } = default!;
+        public IList<Vin> Vin { get;set; }
+        public AllDataVinuri AllDataVin { get; set; }
+        public int VinID { get; set; }
+        public int DistribuitorID { get; set; }
 
-        public async Task OnGetAsync()
+
+        public async Task OnGetAsync(int? id, int? distribuitorID)
         {
-            if (_context.Vin != null)
-            {
-                Vin = await _context.Vin.Include(b => b.Tara).ToListAsync();
+            AllDataVin = new AllDataVinuri();
 
+            AllDataVin.Vinuri = await _context.Vin.Include(b => b.Tara)
+                .Include(b => b.DistribuitoriDeVinuri).ThenInclude(b => b.Distribuitor).AsNoTracking().OrderBy(b => b.Nume).ToListAsync();
+            if(id != null)
+            {
+                VinID = id.Value;
+                Vin vin = AllDataVin.Vinuri.Where(i => i.ID == id.Value).Single();
+                AllDataVin.Distribuitori = vin.DistribuitoriDeVinuri.Select(s => s.Distribuitor);
             }
+
         }
+        
+
+
     }
 }

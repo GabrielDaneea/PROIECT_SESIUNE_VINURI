@@ -11,7 +11,7 @@ using PROIECT_SESIUNE_VINURI.Pages.Models;
 
 namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
 {
-    public class CreateModel : PageModel
+    public class CreateModel : DistribuitorVinuriModel
     {
         private readonly PROIECT_SESIUNE_VINURI.Data.PROIECT_SESIUNE_VINURIContext _context;
 
@@ -22,8 +22,10 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
 
         public IActionResult OnGet()
         {
-            ViewData["TaraID"] = new SelectList(_context.Set<Tara>(), "ID",
-            "Nume");
+            ViewData["TaraID"] = new SelectList(_context.Set<Tara>(), "ID", "Nume");
+            var vin = new Vin();
+            vin.DistribuitoriDeVinuri = new List<DistribuitorVinuri>();
+                 IncarcaDistribuitorVinuriDat(_context, vin);
             return Page();
         }
 
@@ -32,17 +34,33 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedDistribuitori)
         {
-          if (!ModelState.IsValid)
+            var newVin = new Vin();
+            if(selectedDistribuitori != null)
             {
-                return Page();
+                newVin.DistribuitoriDeVinuri = new List<DistribuitorVinuri>();
+                    foreach ( var distri in selectedDistribuitori)
+                {
+                    var distriToAdd = new DistribuitorVinuri
+                    {
+                        DistribuitorID = int.Parse(distri)
+                    };
+                    newVin.DistribuitoriDeVinuri.Add(
+                        distriToAdd);
+                }
             }
+            if(await TryUpdateModelAsync<Vin>(newVin, "Vin", i => i.Nume, i => i.An, i => i.Tip, i => i.Culoare, i => i.Pret, i => i.Tara))
+            {
+                _context.Vin.Add(newVin);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
 
-            _context.Vin.Add(Vin);
-            await _context.SaveChangesAsync();
+            }
+            IncarcaDistribuitorVinuriDat(_context, newVin);
+            return Page();
 
-            return RedirectToPage("./Index");
+         
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/{id:int?}"
 @model PROIECT_SESIUNE_VINURI.Pages.Vinuri.IndexModel
 
 @{
@@ -31,14 +31,22 @@
             <th>
                 @Html.DisplayNameFor(model => model.Vin[0].Tara.Nume)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vin[0].DistribuitoriDeVinuri)
+            </th>
             
           
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Vin) {
-        <tr>
+@foreach (var item in Model.AllDataVin.Vinuri) {
+            string selectedRow = "";
+            if(item.ID == Model.VinID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Nume)
             </td>
@@ -57,7 +65,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Tara.Nume)
                 </td>
-               
+                <td>
+                    @{
+                        foreach ( var distri in item.DistribuitoriDeVinuri)
+                        {
+                            @distri.Distribuitor.ID @: @distri.Distribuitor.Nume_Firma <br/>
+                        }
+                    }
+                </td>
+
+
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
