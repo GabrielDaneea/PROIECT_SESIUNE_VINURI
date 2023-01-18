@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PROIECT_SESIUNE_VINURI.Data;
 using PROIECT_SESIUNE_VINURI.Pages.Models;
+using PROIECT_SESIUNE_VINURI.Pages.Models.Viewer;
 
 namespace PROIECT_SESIUNE_VINURI.Pages.Distribuitori
 {
@@ -21,11 +22,20 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Distribuitori
 
         public IList<Distribuitor> Distribuitor { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        
+        public DistribuitorInData DistribuitorData { get; set; }
+        public int DistribuitorID { get; set; }
+        public int VinID { get; set; }
+
+        public async Task OnGetAsync(int? id, int? vinID)
         {
-            if (_context.Distribuitor != null)
+            DistribuitorData = new DistribuitorInData();
+            DistribuitorData.Distribuitori = await _context.Distribuitor.Include(i => i.Vinuri).OrderBy(i => i.Nume_Firma).ToListAsync();
+            if (id != null)
             {
-                Distribuitor = await _context.Distribuitor.ToListAsync();
+                DistribuitorID = id.Value;
+                Distribuitor distribuitor = DistribuitorData.Distribuitori.Where(i => i.ID == id.Value).Single();
+                DistribuitorData.Vinuri = distribuitor.Vinuri;
             }
         }
     }

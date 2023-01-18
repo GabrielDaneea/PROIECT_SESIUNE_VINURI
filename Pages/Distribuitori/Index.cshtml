@@ -20,17 +20,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Distribuitor) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nume_Firma)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.DistribuitorData.Distribuitori)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.DistribuitorID)
+            {
+                selectedRow = "table-success";
+            }
+                <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nume_Firma)
+                </td>
+                <td>
+                     <a asp-page="./Edit" asp-route-id="@item.ID">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

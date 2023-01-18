@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PROIECT_SESIUNE_VINURI.Data;
 using PROIECT_SESIUNE_VINURI.Pages.Models;
+using PROIECT_SESIUNE_VINURI.Pages.Models.Viewer;
 
 namespace PROIECT_SESIUNE_VINURI.Pages.Tari
 {
@@ -20,12 +21,19 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Tari
         }
 
         public IList<Tara> Tara { get;set; } = default!;
+        public TaraInData TaraData { get; set; }
+        public int TaraID { get; set; }
+        public int VinID { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id, int? vinID)
         {
-            if (_context.Tara != null)
+            TaraData = new TaraInData();
+            TaraData.Tari = await _context.Tara.Include(i => i.Vinuri).OrderBy(i => i.Nume).ToListAsync();
+            if (id != null)
             {
-                Tara = await _context.Tara.ToListAsync();
+                TaraID = id.Value;
+                Tara tara = TaraData.Tari.Where(i => i.ID == id.Value).Single();
+                TaraData.Vinuri = tara.Vinuri;
             }
         }
     }
