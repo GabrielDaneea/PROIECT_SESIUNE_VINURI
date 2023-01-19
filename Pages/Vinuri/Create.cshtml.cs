@@ -25,7 +25,7 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
             ViewData["TaraID"] = new SelectList(_context.Set<Tara>(), "ID", "Nume");
             var vin = new Vin();
             vin.DistribuitoriDeVinuri = new List<DistribuitorVinuri>();
-                 IncarcaDistribuitorVinuriDat(_context, vin);
+            IncarcaDistribuitorVinuriDat(_context, vin);
             return Page();
         }
 
@@ -50,17 +50,20 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Vinuri
                         distriToAdd);
                 }
             }
-            if(await TryUpdateModelAsync<Vin>(newVin, "Vin", i => i.Nume, i => i.An, i => i.Tip, i => i.Culoare, i => i.Pret, i => i.Tara))
+           
+            if (await TryUpdateModelAsync<Vin>(newVin, "Vi", i => i.Nume, i => i.An, i => i.Tip,
+                i => i.Culoare, i => i.Pret, i => i.TaraID))
             {
                 _context.Vin.Add(newVin);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
 
             }
+
             IncarcaDistribuitorVinuriDat(_context, newVin);
             return Page();
-
-         
         }
+
     }
+    
 }

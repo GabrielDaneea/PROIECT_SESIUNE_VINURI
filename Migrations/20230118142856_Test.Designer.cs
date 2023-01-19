@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PROIECT_SESIUNE_VINURI.Data;
 
@@ -11,9 +12,10 @@ using PROIECT_SESIUNE_VINURI.Data;
 namespace PROIECT_SESIUNE_VINURI.Migrations
 {
     [DbContext(typeof(PROIECT_SESIUNE_VINURIContext))]
-    partial class PROIECT_SESIUNE_VINURIContextModelSnapshot : ModelSnapshot
+    [Migration("20230118142856_Test")]
+    partial class Test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,6 +141,7 @@ namespace PROIECT_SESIUNE_VINURI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Culoare")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DistribuitorID")
@@ -152,7 +155,7 @@ namespace PROIECT_SESIUNE_VINURI.Migrations
                     b.Property<int>("Pret")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TaraID")
+                    b.Property<int>("TaraID")
                         .HasColumnType("int");
 
                     b.Property<string>("Tip")
@@ -211,7 +214,9 @@ namespace PROIECT_SESIUNE_VINURI.Migrations
 
                     b.HasOne("PROIECT_SESIUNE_VINURI.Pages.Models.Tara", "Tara")
                         .WithMany("Vinuri")
-                        .HasForeignKey("TaraID");
+                        .HasForeignKey("TaraID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Tara");
                 });

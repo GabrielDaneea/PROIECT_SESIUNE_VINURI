@@ -17,13 +17,13 @@ namespace PROIECT_SESIUNE_VINURI.Pages.Models
         [Required, StringLength(150, MinimumLength = 5)]
         public string Tip { get; set; }
         [Display(Name = "Culoare:")]
-        public string Culoare { get; set; }
+        public string? Culoare { get; set; }
         [Display(Name = "Pret/Lei:")]
 
         [Range(1, 300)]
         public int Pret { get; set; }
 
-        public int TaraID { get; set; }
+        public int? TaraID { get; set; }
 
         public Tara Tara { get; set; }
         public ICollection<DistribuitorVinuri> DistribuitoriDeVinuri { get; set; }
